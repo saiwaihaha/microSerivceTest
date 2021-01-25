@@ -1,0 +1,333 @@
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2019-2019. All rights reserved.
+ */
+
+package com.huawei.appgallery.delegate.impl;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.huawei.appgallery.api.AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegate;
+import com.huawei.appgallery.service.AppAuditAssignService;
+import com.huawei.appgallery.service.AppRetestService;
+import com.huawei.appmarket.appauditassignservice.entity.AppAssignRule;
+import com.huawei.appmarket.appauditassignservice.entity.AppAssignRulePageResults;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditAssiganSummary;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditGroup;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditGroupPageResults;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditMapping;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditMappingPageResults;
+import com.huawei.appmarket.appauditassignservice.entity.AppAuditSetting;
+import com.huawei.appmarket.appauditassignservice.entity.RoleMember;
+import com.huawei.appmarket.auditbackstage.microservice.entity.Result;
+import com.huawei.appmarket.appauditassignservice.entity.AppRetestAmount;
+
+
+/**
+ * 〈一句话功能简述〉
+ * 〈功能详细描述〉.
+ *
+ * @author lWX559158
+ * @since 2019-09-10
+ */
+@Service
+public class AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl
+    implements AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegate {
+
+    /**
+     * 日志常量.
+     */
+    private static final Logger LOG =
+        LoggerFactory.getLogger(AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl.class);
+
+    /**
+     * The app audit assign service.
+     */
+    @Autowired
+    private AppAuditAssignService appAuditAssignService;
+
+    @Autowired
+    private AppRetestService retestService;
+
+    /**
+     * 查询应用分配规则和审核分组映射信息
+     * {@inheritDoc}
+     */
+    @Override
+    public AppAuditMappingPageResults queryAppAuditMappings(Integer current, Integer pageSize, Integer start,
+        String groupName, String ruleName, String ruleType) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAppAuditMappings() begin");
+        AppAuditMappingPageResults pageResults =
+            appAuditAssignService.queryAppAuditMappingList(current, pageSize, start, groupName, ruleName, ruleType);
+        LOG.info("queryAppAuditMappings() end");
+        return pageResults;
+    }
+
+    /**
+     * 新增应用分配规则和审核分组映射信息
+     * {@inheritDoc}
+     */
+    @Override
+    public Result createAppAuditMapping(List<AppAuditMapping> appAuditMapping) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAppAuditMapping() begin");
+        Result result = appAuditAssignService.addAppAuditMappingList(appAuditMapping);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAppAuditMapping() end");
+        return result;
+    }
+
+    /**
+     * 修改应用分配规则和审核分组映射信息
+     * {@inheritDoc}
+     */
+    @Override
+    public Result updateAppAuditMapping(List<AppAuditMapping> appAuditMapping) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAppAuditMapping() begin");
+        Result result = appAuditAssignService.modifyAppAuditMappingList(appAuditMapping);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAppAuditMapping() end");
+        return result;
+    }
+
+    /**
+     * 根据条件删除映射规则
+     * {@inheritDoc}
+     */
+    @Override
+    public Result deleteAppAuditMappings(String ids, String currentId, String ruleType) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAppAuditMappings() begin");
+        Result result = appAuditAssignService.delAppAuditMappingList(ids, currentId, ruleType);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAppAuditMappings() end");
+        return result;
+    }
+
+    /**
+     * 查询分配规则.
+     *
+     * @param current  the current
+     * @param pageSize the page size
+     * @param start    the start
+     * @param content  the content
+     * @param ruleName the rule name
+     * @return the app assign rule page results
+     */
+    @Override
+    public AppAssignRulePageResults queryAssignRules(Integer current, Integer pageSize, Integer start, String content,
+        String ruleName) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAssignRules() begin");
+        AppAssignRulePageResults pageResults =
+            appAuditAssignService.queryAssignRulesList(current, pageSize, start, content, ruleName);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAssignRules() end");
+        return pageResults;
+    }
+
+    /**
+     * 新增分配规则.
+     *
+     * @param appAssignRule the app assign rule
+     * @return the result
+     */
+    @Override
+    public Result createAssignRule(List<AppAssignRule> appAssignRule) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAssignRule() begin");
+        Result result = appAuditAssignService.addAppAssignRuleList(appAssignRule);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAssignRule() end");
+        return result;
+    }
+
+    /**
+     * 修改分配规则.
+     *
+     * @param appAssignRules the app assign rules
+     * @return the result
+     */
+    @Override
+    public Result updateAssignRule(List<AppAssignRule> appAssignRules) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAssignRule() begin");
+        Result result = appAuditAssignService.updateAppAssignRuleList(appAssignRules);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAssignRule() end");
+        return result;
+    }
+
+    /**
+     * 删除分配规则.
+     *
+     * @param ids       the ids
+     * @param currentId the current id
+     * @return the result
+     */
+    @Override
+    public Result deleteAssignRules(String ids, String currentId) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAssignRules() begin");
+        Result result = appAuditAssignService.delAppAssignRuleList(ids, currentId);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAssignRules() end");
+        return result;
+    }
+
+    /**
+     * 查询审核分组.
+     *
+     * @param current the current
+     * @param pageSize the page size
+     * @param start the start
+     * @param groupName the group name
+     * @param member the member
+     * @param owner the owner
+     * @param ruleType the ruleType
+     * @return the app audit group page results
+     */
+    @Override
+    public AppAuditGroupPageResults queryAppGroups(Integer current, Integer pageSize, Integer start, String groupName,
+        String member, String owner, String ruleType) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAppAuditGroups() begin");
+        AppAuditGroupPageResults pageResults =
+            appAuditAssignService.queryAppGroups(current, pageSize, start, groupName, member, owner, ruleType);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAppAuditGroups() end");
+        return pageResults;
+    }
+
+    /**
+     *
+     * 新增审核分组.
+     *
+     * @param appAuditGroups the app audit groups
+     * @param appAuditGroups the app audit owner
+     * @return the result
+     */
+    @Override
+    public Result createAppAuditGroup(List<AppAuditGroup> appAuditGroups, String owner) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAppAuditGroup() begin");
+        Result result = appAuditAssignService.addAppAuditGroups(appAuditGroups, owner);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl createAppAuditGroup() end");
+        return result;
+    }
+
+    /**
+     * 修改审核分组.
+     *
+     * @param appAuditGroups the app audit groups
+     * @param appAuditGroups the app audit owner
+     * @return the result
+     */
+    @Override
+    public Result updateAppAuditGroup(List<AppAuditGroup> appAuditGroups, String owner) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAppAuditGroup() begin");
+        Result result = appAuditAssignService.updateAppAuditGroups(appAuditGroups, owner);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAppAuditGroup() end");
+        return result;
+    }
+
+    /**
+     * 删除审核分组.
+     *
+     * @param ids the ids
+     * @param ruleType the ruleType
+     * @param currentId the current id
+     * @return the result
+     */
+    @Override
+    public Result deleteAppAuditGroups(String ids, String ruleType, String currentId) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAppAuditGroups() begin");
+        Result result = appAuditAssignService.deleteAppAuditGroups(ids, ruleType, currentId);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl deleteAppAuditGroups() end");
+        return result;
+    }
+
+    /**
+     * 应用审核任务分配记录查询.
+     *
+     * @param ruleIds the rule ids
+     * @param date the date
+     * @param ruleType the ruleType
+     * @return the list
+     */
+    @Override
+    public List<AppAuditAssiganSummary> queryAppAuditAssign(String ruleIds, String date, String ruleType) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAppAuditAssign() begin");
+        List<AppAuditAssiganSummary> list = appAuditAssignService.queryAppAuditAssign(ruleIds, date, ruleType);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl queryAppAuditAssign() end");
+        return list;
+    }
+
+    /**
+     * 应用审核分配设置，新增和修改.
+     *
+     * @param settings the settings
+     * @return the result
+     */
+    @Override
+    public Result updateAuditAssignSettings(AppAuditSetting settings) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAuditAssignSettings() begin");
+        Result result = appAuditAssignService.updateAuditAssignSettings(settings);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl updateAuditAssignSettings() end");
+        return result;
+    }
+
+    @Override
+    public String getAdminType() {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAdminType() begin");
+        String result = appAuditAssignService.getAdminType();
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAdminType() end");
+        return result;
+    }
+
+    @Override
+    public List<RoleMember> getMembers(String ruleType) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getMembers() begin, the ruleType is {}",
+            ruleType);
+        try {
+            return appAuditAssignService.getMembers(ruleType);
+        } catch (Exception e) {
+            LOG.error("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getMembers(),ruleType:{} error:{}",
+                ruleType, e);
+            throw e;
+        }
+    }
+
+    /**
+     * 获取应用审核分配设置，只有一条数据.
+     *
+     * @return the audit assign settings
+     */
+    @Override
+    public AppAuditSetting getAuditAssignSettings() {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAuditAssignSettings() begin");
+        AppAuditSetting appAuditSetting = appAuditAssignService.getAuditAssignSettings();
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAuditAssignSettings() end");
+        return appAuditSetting;
+    }
+
+    /**
+     * 根据规则Id获取
+     *
+     * @param ruleIds 规则id，最多30个规则，多个规则之间使用英文逗号隔开。 (required)
+     * @return AppRetestAmount
+     */
+    @Override
+    public List<AppRetestAmount> getAppRetestAmountByRule(String ruleIds) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAppRetestAmountByRule() begin");
+        final List<AppRetestAmount> retestAmountByRule = retestService.getRetestAmountByRule(ruleIds);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAppRetestAmountByRule() end");
+        return retestAmountByRule;
+    }
+
+    @Override
+    public Integer getAuditingAppCountOfSubcontractor(String owner) {
+        LOG.info(
+            "AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAuditingAppCountOfSubcontractor() begin");
+        Integer result = appAuditAssignService.getAuditingAppCountOfSubcontractor(owner);
+        LOG.info(
+            "AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl getAuditingAppCountOfSubcontractor() end");
+        return result;
+    }
+
+    @Override
+    public Result reassignAuditApp(String owner) {
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl reassignAuditApp() begin");
+        Result result = appAuditAssignService.reassignAuditApp(owner);
+        LOG.info("AppAuditAssignApiAppAuditAssignServiceApiImplIntfDelegateImpl reassignAuditApp() end");
+        return result;
+    }
+}
